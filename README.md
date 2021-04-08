@@ -17,7 +17,7 @@ This challenge focuses on both scope and closures.
 
 In this challenge you will be working to build a `scoreboard` (in the console) that takes randomly generated data and keeps track of a game's progress. If you're not familiar with the rules of baseball what you need to know is this: there are 9 innings and teams take turns "at-bat." Teams can only score while they are at bat. A team stops being at bat once they have gotten 3 `outs` by either striking out or through game play. You can read more about baseball rules [here](https://www.rulesofsport.com/sports/baseball.html).
 
-A scoreboard in a major league stadium looks something like this. In fact, the scoreboard at Fenway Park in Boston is actually quite famous. 
+A scoreboard in a major league stadium looks something like this. In fact, the scoreboard at Fenway Park in Boston is actually quite famous.
 
 ![Fenway Scoreboard](https://storage.googleapis.com/afs-prod/media/media:e959506330fd4e5890023c93cfbaac55/800.jpeg)
 
@@ -43,6 +43,9 @@ Find the file `index.js` and complete the tasks.
 Edit the `ReadMe` file with your answers.
 
 1. In your own words, define closure (1-2 sentences).
+
+It is the ability to access functions from a parent level scope in a child level even after the parent function has been terminated.
+
 2. Study the following code, then answer the questions below.
 
 ```js
@@ -58,15 +61,19 @@ const dansRoll = personalDice("Dan");
 
 const zoesRoll = personalDice("Zoe");
 
-
+console.log("It is working");
 dansRoll();
 dansRoll();
 ```
 
 a. Where is closure used in this code? How can you tell?
-b. Compare and contrast calling `dansRoll` the first and second time. What is always the same? What could change?
-c. What is the lexical scope of `newRoll`? 
+The closure can be seen in the step where the function called function has to fall back on the personalDice function to find the value of the variable name to complete its task. Otherwise the code is undefined.
 
+b. Compare and contrast calling `dansRoll` the first and second time. What is always the same? What could change?
+Since the variable newRoll changes -it's a function that outputs random numbers-, the result of calling `dansRoll` changes too. The function itself does not change, but its output does.
+
+c. What is the lexical scope of `newRoll`?
+It's scope is within the curly brackets of the function. 
 
 ### Task 3 - Stretch Goals
 
@@ -92,4 +99,4 @@ addSix(21); // returns 27
 
 ## Submission Format
 
-Please see Canvas for cohort specific submission instructions 
+Please see Canvas for cohort specific submission instructions

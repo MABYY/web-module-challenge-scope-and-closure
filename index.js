@@ -25,15 +25,31 @@ console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
 
 /*Task 1: counterMaker()
   
-  Study the code for counter1 and counter2, then answer the questions below.
+  Study the code for counter1 and counter2, then answer the 
+  questions below.
   
   1. What is the difference between counter1 and counter2?
-  
+
+  They are functions that use variables with different scope.
+  The function called counterMaker uses the variable count, which 
+  has local scope (let and const variables' scope is inside the curly brackets).
+  On the contrary, counter2 uses the second variable count which can be called 
+  by any function. 
+
+
   2. Which of the two uses a closure? How can you tell?
   
+  The first function uses closure. The function called counter reaches outside 
+  its scope into the parent scope to access the variable count. Functions are scoped 
+  to the parent function. 
+
   3. In what scenario would the counter1 code be preferable? In what scenario would 
      counter2 be better?  
+     
+     We will use counter2 in case we want to give global access to the variable count.
+     In other cases, we will use the counterMaker function.
 */
+
 
 // counter1 code
 function counterMaker() {
@@ -45,34 +61,51 @@ function counterMaker() {
 
 const counter1 = counterMaker();
 
+console.log(counter1());
+console.log(counter1());
+console.log(counter1());
+console.log(counter1());
+
+
 // counter2 code
 let count = 0;
-
 function counter2() {
   return count++;
 }
 
+console.log(counter2());
+console.log(counter2());
+console.log(counter2());
+console.log(counter2());
 
 /* ⚾️⚾️⚾️ Task 2: inning() ⚾️⚾️⚾️
 Use the inning function below to do the following:
-  1. Return a random whole number of points between 0 and 2 scored by one team in an inning
+  1. Return a random whole number of points between 0 and 2 scored by one
+   team in an inning
   
-  For example: invoking inning() should return a numerical score value of 0, 1, or 2
+  For example: invoking inning() should return a numerical score 
+  value of 0, 1, or 2
   
 NOTE: This will be a callback function for the tasks below
 */
 
-function inning(/*Code Here*/){
-    /*Code Here*/
+function inning() {
+    return Math.floor(Math.random() * 3)
 }
 
+
+console.log(inning())
+console.log(inning())
+console.log(inning())
+console.log(inning())
 
 /* ⚾️⚾️⚾️ Task 3: finalScore() ⚾️⚾️⚾️
 Use the finalScore function below to do the following:
   1. Receive the callback function `inning` that was created in Task 2 
   2. Receive a number of innings to be played
   3. After each inning, update the score of the home and away teams
-  4. After the last inning, return an object containing the final (total) score of the innings played
+  4. After the last inning, return an object containing the final 
+  (total) score of the innings played
   
   For example: invoking finalScore(inning, 9) might return this object:
 {
@@ -81,19 +114,41 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*code Here*/){
-  /*Code Here*/
+function finalScore(inningCB, num){
+  let home_score=0;
+  let away_score = 0;
+  for (let i = 0; i< num; i++){
+    home_score += inningCB();
+    away_score += inningCB()
+  };
+  return {
+    "Home": home_score,
+    "Away": away_score
+  };
 }
+
+console.log(finalScore(inning, 9))
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
 Use the getInningScore() function below to do the following:
-  1. Receive a callback function - you will pass in the inning function from task 2 as your argument 
-  2. Return an object with a score for home and a score for away that populates from invoking the inning callback function */
+  1. Receive a callback function - you will pass in the inning 
+  function from task 2 as your argument 
+  2. Return an object with a score for home and a score for away that 
+  populates from invoking the inning callback function */
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
+function getInningScore(inningCB) {
+  let home_score = inningCB();
+  let away_score = inningCB()
+
+   return {
+    "Home": home_score,
+    "Away": away_score
+  }
 }
 
+console.log(getInningScore(inning).Home);
+console.log(getInningScore(inning).Away);
+console.log(getInningScore(inning));
 
 /* ⚾️⚾️⚾️ Task 5: scoreboard() ⚾️⚾️⚾️
 Use the scoreboard function below to do the following:
@@ -102,8 +157,10 @@ Use the scoreboard function below to do the following:
   3. Receive a number of innings to be played
   4. Return an array where each of it's index values equals a string stating the
   Home and Away team's scores for each inning.  Not the cummulative score.
-  5. If there's a tie at the end of the innings, add this message containing the score to the end of the array:  "This game will require extra innings: Away 12 - Home 12"  (see tie example below)
-     If there isn't a tie, add this message to the end of the array: "Final Score: Away 13 - Home 11"  (see no tie example below)
+  5. If there's a tie at the end of the innings, add this message containing 
+  the score to the end of the array:  "This game will require extra innings: Away 12 - Home 12"  (see tie example below)
+     If there isn't a tie, add this message to the end of the array: "Final Score: 
+     Away 13 - Home 11"  (see no tie example below)
   
   NO TIE example: invoking scoreboard(getInningScore,inning, 9) might return 
   an array of strings like this:
@@ -136,9 +193,30 @@ Use the scoreboard function below to do the following:
 ]  
   */
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(getInningScoreCB,inningCB, plays) {
+  let results_arr = []
+  let score_home = 0;
+  let score_away = 0;
+  let count_home = 0;
+  let count_away = 0;
+  for (let i=0;i<=plays ;i++) {
+    let score_home = getInningScoreCB(inningCB).Home;
+    let score_away = getInningScoreCB(inningCB).Away;
+    results_arr.push(`Inning ${i}: Away: ${score_away} - Home: ${score_home}`) ;
+    count_away = count_away + score_away;
+    count_home = count_home + score_home;
+  };
+  if (count_home === count_away){
+    results_arr.push(`This game will require extra innings: Away ${count_away} - Home ${count_home}`);
+  } else {
+    results_arr.push(`Final Score: Away ${count_away} - Home ${count_home}`);
+  }
+  return results_arr;
 }
+
+
+console.log(scoreboard(getInningScore,inning, 9));
+
 
 
 
